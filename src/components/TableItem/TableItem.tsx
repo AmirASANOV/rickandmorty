@@ -1,7 +1,13 @@
 import React from "react";
 import s from "./TableItem.module.scss";
+import { ITable } from "../../types/types";
 
-const TableItem: React.FC = (props) => {
+interface ITableProps {
+  post: ITable;
+}
+
+const TableItem: React.FC<ITableProps> = (props) => {
+  console.log(props);
   return (
     <tr className={s.wrapper}>
       <td>
@@ -9,12 +15,12 @@ const TableItem: React.FC = (props) => {
       </td>
 
       <td className={s.id}>
-        <p>1</p>
+        <p>{props.post.id}</p>
       </td>
 
       <td className={s.name}>
-        <p>Ann Culhane</p>
-        <p>5684236526</p>
+        <p>{props.post.name}</p>
+        <p>{props.post.dimension}</p>
       </td>
 
       <td className={s.description}>

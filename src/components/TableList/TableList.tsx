@@ -6,11 +6,10 @@ import { ITable } from "../../types/types";
 
 const TableList = () => {
   const [data, setData] = useState<ITable[]>([]);
-  console.log(data);
 
   useEffect(() => {
     const api = "https://rickandmortyapi.com/api/location";
-    axios.get(api).then((response) => setData(response.data));
+    axios.get(api).then((response) => setData(response.data.results));
   }, []);
 
   return (
@@ -54,7 +53,9 @@ const TableList = () => {
         </tr>
       </thead>
       <tbody>
-        {data && data.map((post: any, i: number) => <TableItem key={i} />)}
+        {data.map((post: ITable, i: number) => (
+          <TableItem key={i} post={post} />
+        ))}
       </tbody>
     </table>
   );
