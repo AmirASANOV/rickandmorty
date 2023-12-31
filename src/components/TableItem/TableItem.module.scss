@@ -1,0 +1,54 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  padding: 10px;
+
+  .id {
+    height: 40px;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .name {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 160px;
+    height: fit-content;
+  }
+
+  .description {
+    width: 238px;
+  }
+  .status {
+    width: 70px;
+    p {
+      width: 52px;
+      height: 20px;
+      text-align: center;
+      background: #f0f1fa;
+    }
+  }
+  .rate {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+  .balance {
+    display: flex;
+
+    width: 100px;
+    justify-content: end;
+  }
+  .deposit {
+    display: flex;
+
+    width: 100px;
+    justify-content: end;
+  }
+}

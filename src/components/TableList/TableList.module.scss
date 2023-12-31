@@ -1,0 +1,50 @@
+.template {
+  display: flex;
+  flex-direction: column;
+
+  .row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: #f4f7fcbf;
+    column-gap: 20px;
+    padding: 10px;
+    height: 40px;
+
+    .id {
+      display: flex;
+      width: 36px;
+      height: 40px;
+      align-items: center;
+    }
+    .name {
+      display: flex;
+      width: 160px;
+    }
+
+    .description {
+      display: flex;
+      width: 238px;
+    }
+    .status {
+      display: flex;
+      width: 70px;
+    }
+    .rate {
+      display: flex;
+      justify-content: end;
+      width: 100px;
+    }
+    .balance {
+      display: flex;
+      justify-content: end;
+
+      width: 100px;
+    }
+    .deposit {
+      display: flex;
+      width: 100px;
+      justify-content: end;
+    }
+  }
+}
