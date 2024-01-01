@@ -16,6 +16,10 @@
       width: 36px;
       height: 40px;
       align-items: center;
+
+      .img {
+        cursor: pointer;
+      }
     }
     .name {
       display: flex;

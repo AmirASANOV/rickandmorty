@@ -14,10 +14,10 @@ const TableList = () => {
   const lastPageIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastPageIndex - itemsPerPage;
   const [currentItem, setCurrentItem] = useState<ITable[]>([]);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
     const api = "https://rickandmortyapi.com/api/location";
-
     axios.get(api).then((response) => {
       setData(response.data.results);
       setIsLoading(false);
@@ -30,6 +30,15 @@ const TableList = () => {
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
+  };
+
+  const sortCurrentItem = () => {
+    const sortedItems = [...currentItem];
+    sortedItems.sort((a: ITable, b: ITable) => {
+      return sortDirection === "asc" ? a.id - b.id : b.id - a.id;
+    });
+    setCurrentItem(sortedItems);
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
   };
 
   return (
@@ -50,6 +59,7 @@ const TableList = () => {
                 <td className={s.id}>
                   <p>#</p>
                   <img
+                    onClick={sortCurrentItem}
                     className={s.img}
                     src="/template/column-sorting.svg"
                     alt=""
