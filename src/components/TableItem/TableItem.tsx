@@ -7,7 +7,6 @@ interface ITableProps {
 }
 
 const TableItem: React.FC<ITableProps> = (props) => {
-  console.log(props);
   return (
     <tr className={s.wrapper}>
       <td>

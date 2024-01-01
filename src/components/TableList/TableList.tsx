@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import s from "./TableList.module.scss";
 import TableItem from "../TableItem/TableItem";
 import axios from "axios";
@@ -13,7 +13,7 @@ const TableList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const lastPageIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastPageIndex - itemsPerPage;
-  const currentItem = data.slice(firstItemIndex, lastPageIndex);
+  const [currentItem, setCurrentItem] = useState<ITable[]>([]);
 
   useEffect(() => {
     const api = "https://rickandmortyapi.com/api/location";
@@ -23,6 +23,10 @@ const TableList = () => {
       setIsLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    setCurrentItem(data.slice(firstItemIndex, lastPageIndex));
+  }, [data, firstItemIndex, lastPageIndex]);
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -85,6 +89,7 @@ const TableList = () => {
               ))}
             </tbody>
           </table>
+
           <Pagination
             itemsPerPage={itemsPerPage}
             totalItems={data.length}
