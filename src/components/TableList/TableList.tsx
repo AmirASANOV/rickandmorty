@@ -15,6 +15,7 @@ const TableList = () => {
   const firstItemIndex = lastPageIndex - itemsPerPage;
   const [currentItem, setCurrentItem] = useState<ITable[]>([]);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
     const api = "https://rickandmortyapi.com/api/location";
@@ -32,13 +33,25 @@ const TableList = () => {
     setCurrentPage(pageNumber);
   };
 
-  const sortCurrentItem = () => {
+  const sortId = () => {
     const sortedItems = [...currentItem];
     sortedItems.sort((a: ITable, b: ITable) => {
       return sortDirection === "asc" ? a.id - b.id : b.id - a.id;
     });
     setCurrentItem(sortedItems);
     setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+
+  const sortAlphabetically = () => {
+    const sortedItems = [...currentItem];
+    sortedItems.sort((a: ITable, b: ITable) => {
+      const comparison = a.name.localeCompare(b.name, "en", {
+        sensitivity: "base",
+      });
+      return sortOrder === "asc" ? comparison : -comparison;
+    });
+    setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+    setCurrentItem(sortedItems);
   };
 
   return (
@@ -58,8 +71,9 @@ const TableList = () => {
 
                 <td className={s.id}>
                   <p>#</p>
+
                   <img
-                    onClick={sortCurrentItem}
+                    onClick={sortId}
                     className={s.img}
                     src="/template/column-sorting.svg"
                     alt=""
@@ -68,7 +82,11 @@ const TableList = () => {
 
                 <td className={s.name}>
                   <p>name</p>
-                  <img src="/template/sort-white.svg" alt="" />
+                  <img
+                    onClick={sortAlphabetically}
+                    src="/template/sort-white.svg"
+                    alt=""
+                  />
                 </td>
 
                 <td className={s.description}>

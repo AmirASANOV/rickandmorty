@@ -20,6 +20,11 @@
       .img {
         cursor: pointer;
       }
+
+      .imgRev {
+        cursor: pointer;
+        transform: rotate(180deg);
+      }
     }
     .name {
       display: flex;
