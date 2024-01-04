@@ -31,7 +31,7 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
       setData(response.data.results);
       setIsLoading(false);
     });
-  }, []);
+  }, [api]);
 
   useEffect(() => {
     setCurrentItem(data.slice(firstItemIndex, lastPageIndex));

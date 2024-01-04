@@ -5,7 +5,7 @@ import { useState } from "react";
 
 function App() {
   const [api, setApi] = useState<string>("Location");
-  
+
   return (
     <div className={s.wrapper}>
       <Header api={api} setApi={setApi} />

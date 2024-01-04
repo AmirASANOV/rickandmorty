@@ -7,10 +7,8 @@ interface IHeaderProps {
 }
 
 const Header: React.FC<IHeaderProps> = ({ api, setApi }) => {
-  
   function handleSelectChange(event: ChangeEvent<HTMLSelectElement>) {
     setApi(event.target.value);
-    console.log(api);
   }
 
   return (
