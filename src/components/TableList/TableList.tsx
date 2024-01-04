@@ -6,7 +6,11 @@ import { ITable } from "../../types/types";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 
-const TableList = () => {
+interface ITableListProps {
+  api: string;
+}
+
+const TableList: React.FC<ITableListProps> = ({ api }) => {
   const [data, setData] = useState<ITable[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
@@ -18,8 +22,12 @@ const TableList = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
-    const api = "https://rickandmortyapi.com/api/location";
-    axios.get(api).then((response) => {
+    const apiLoad =
+      api === "Location"
+        ? "https://rickandmortyapi.com/api/location"
+        : "https://rickandmortyapi.com/api/character";
+
+    axios.get(apiLoad).then((response) => {
       setData(response.data.results);
       setIsLoading(false);
     });
@@ -83,6 +91,7 @@ const TableList = () => {
                 <td className={s.name}>
                   <p>name</p>
                   <img
+                    className={s.img}
                     onClick={sortAlphabetically}
                     src="/template/sort-white.svg"
                     alt=""

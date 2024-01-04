@@ -29,6 +29,10 @@
     .name {
       display: flex;
       width: 160px;
+
+      .img {
+        cursor: pointer;
+      }
     }
 
     .description {
