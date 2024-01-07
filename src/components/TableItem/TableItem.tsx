@@ -56,7 +56,7 @@ const TableItem: React.FC<ITableProps> = (props) => {
 
         {isVisible && (
           <div className={s.postOptionWindow}>
-            <PostOptions />
+            <PostOptions id={props.post.id} />
           </div>
         )}
       </td>

@@ -1,7 +1,19 @@
 import React, { useRef } from "react";
 import s from "./PostOptions.module.scss";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../store/PostsSlice";
 
-const PostOptions: React.FC = (props) => {
+interface IPostOptionProps {
+  id: number;
+}
+
+const PostOptions: React.FC<IPostOptionProps> = (props) => {
+  const dispatch = useDispatch();
+
+  const handleDeleteClick = (postId: number) => {
+    dispatch(deletePost(postId));
+  };
+
   return (
     <div className={s.wrapper}>
       <button className={s.btn}>
@@ -11,7 +23,7 @@ const PostOptions: React.FC = (props) => {
         Edit <img src="/postOption/edit.svg" alt="" />
       </button>
 
-      <button className={s.btn}>
+      <button onClick={() => handleDeleteClick(props.id)} className={s.btn}>
         Delete <img src="/postOption/trash.svg" alt="" />
       </button>
     </div>
