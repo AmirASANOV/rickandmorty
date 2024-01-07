@@ -5,6 +5,8 @@ import axios from "axios";
 import { ITable } from "../../types/types";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface ITableListProps {
   api: string;
@@ -20,6 +22,9 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
   const [currentItem, setCurrentItem] = useState<ITable[]>([]);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const removeID = useSelector((state: RootState) => state.posts);
+  console.log(removeID);
 
   useEffect(() => {
     const apiLoad =
@@ -60,10 +65,6 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
     });
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
     setCurrentItem(sortedItems);
-  };
-
-  const removeItem = (item: ITable) => {
-    setCurrentItem(currentItem.filter((post) => post.id !== item.id));
   };
 
   return (

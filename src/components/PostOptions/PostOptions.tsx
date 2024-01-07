@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import s from "./PostOptions.module.scss";
 import { useDispatch } from "react-redux";
 import { deletePost } from "../../store/PostsSlice";
