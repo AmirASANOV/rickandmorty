@@ -7,7 +7,7 @@ interface ITableProps {
   post: ITable;
 }
 
-const TableItem: React.FC<ITableProps> = (props) => {
+const TableItem: React.FC<ITableProps> = ({ post }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   return (
@@ -17,12 +17,12 @@ const TableItem: React.FC<ITableProps> = (props) => {
       </td>
 
       <td className={s.id}>
-        <p>{props.post.id}</p>
+        <p>{post.id}</p>
       </td>
 
       <td className={s.name}>
-        <p>{props.post.name}</p>
-        <p>{props.post.dimension}</p>
+        <p>{post.name}</p>
+        <p>{post.dimension}</p>
       </td>
 
       <td className={s.description}>
@@ -56,7 +56,7 @@ const TableItem: React.FC<ITableProps> = (props) => {
 
         {isVisible && (
           <div className={s.postOptionWindow}>
-            <PostOptions id={props.post.id} />
+            <PostOptions id={post.id} />
           </div>
         )}
       </td>

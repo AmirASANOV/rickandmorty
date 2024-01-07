@@ -5,8 +5,9 @@ import axios from "axios";
 import { ITable } from "../../types/types";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { deletePost } from "../../store/PostsSlice";
 
 interface ITableListProps {
   api: string;
@@ -24,7 +25,8 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const removeID = useSelector((state: RootState) => state.posts);
-  console.log(removeID);
+
+  console.log(useSelector((state: RootState) => state.posts));
 
   useEffect(() => {
     const apiLoad =

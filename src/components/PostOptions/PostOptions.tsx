@@ -12,6 +12,7 @@ const PostOptions: React.FC<IPostOptionProps> = (props) => {
 
   const handleDeleteClick = (postId: number) => {
     dispatch(deletePost(postId));
+    console.log(dispatch(deletePost(postId)));
   };
 
   return (
