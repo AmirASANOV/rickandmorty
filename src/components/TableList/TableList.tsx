@@ -62,6 +62,10 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
     setCurrentItem(sortedItems);
   };
 
+  const removeItem = (item: ITable) => {
+    setCurrentItem(currentItem.filter((post) => post.id !== item.id));
+  };
+
   return (
     <div>
       {isLoading ? (

@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import s from "./TableItem.module.scss";
 import { ITable } from "../../types/types";
+import PostOptions from "../PostOptions/PostOptions";
 
 interface ITableProps {
   post: ITable;
 }
 
 const TableItem: React.FC<ITableProps> = (props) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
   return (
     <tr className={s.wrapper}>
       <td>
@@ -41,6 +44,21 @@ const TableItem: React.FC<ITableProps> = (props) => {
 
       <td className={s.deposit}>
         <p>deposit</p>
+      </td>
+
+      <td className={s.options}>
+        <img
+          className={s.threePoints}
+          onClick={() => setIsVisible(!isVisible)}
+          src="/item/threePoints.svg"
+          alt=""
+        />
+
+        {isVisible && (
+          <div className={s.postOptionWindow}>
+            <PostOptions />
+          </div>
+        )}
       </td>
     </tr>
   );
