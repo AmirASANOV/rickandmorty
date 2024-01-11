@@ -26,7 +26,7 @@ const Header: React.FC<IHeaderProps> = ({ api, setApi }) => {
     <div className={s.wrapper}>
       <div className={s.container}>
         {selectedPosts.length ? (
-          <button onClick={() => removePosts()}>
+          <button className={s.filter} onClick={() => removePosts()}>
             <img src="/header/trash.svg" alt="" />
           </button>
         ) : (

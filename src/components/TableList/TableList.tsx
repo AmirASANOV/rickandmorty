@@ -6,7 +6,7 @@ import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { deselectPost, removePost } from "../../store/PostsSlice";
+import { deselectPost } from "../../store/PostsSlice";
 
 interface ITableListProps {
   api: string;
@@ -80,12 +80,13 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
                 <td>
                   {selectedPosts.length ? (
                     <img
+                      className={s.checkbox}
                       onClick={() => removeSelect()}
                       src="/template/checkboxMinus.svg"
                       alt=""
                     />
                   ) : (
-                    <input type="checkbox" />
+                    <input className={s.checkbox} type="checkbox" />
                   )}
                 </td>
 
