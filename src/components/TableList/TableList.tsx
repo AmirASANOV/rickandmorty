@@ -4,8 +4,9 @@ import TableItem from "../TableItem/TableItem";
 import { ITable, LoadingStatus } from "../../types/types";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { removePost } from "../../store/PostsSlice";
 
 interface ITableListProps {
   api: string;
@@ -13,7 +14,6 @@ interface ITableListProps {
 
 const TableList: React.FC<ITableListProps> = ({ api }) => {
   const data = useSelector<RootState, ITable[]>((store) => store.posts.posts);
-  console.log(data);
 
   const isLoading = useSelector<RootState, LoadingStatus>(
     (store) => store.posts.loadingStatus
@@ -24,9 +24,12 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
   const lastPageIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastPageIndex - itemsPerPage;
   const [currentItem, setCurrentItem] = useState<ITable[]>([]);
-
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const selectedPosts = useSelector(
+    (state: RootState) => state.posts.selectedPostIds
+  );
 
   useEffect(() => {
     setCurrentItem(data.slice(firstItemIndex, lastPageIndex));

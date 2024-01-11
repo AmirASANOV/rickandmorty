@@ -1,5 +1,8 @@
 import React, { ChangeEvent } from "react";
 import s from "./Header.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { removePost } from "../../store/PostsSlice";
 
 interface IHeaderProps {
   api: string;
@@ -7,16 +10,30 @@ interface IHeaderProps {
 }
 
 const Header: React.FC<IHeaderProps> = ({ api, setApi }) => {
+  const dispatch = useDispatch();
   function handleSelectChange(event: ChangeEvent<HTMLSelectElement>) {
     setApi(event.target.value);
   }
+  const selectedPosts = useSelector(
+    (post: RootState) => post.posts.selectedPostIds
+  );
+
+  const removePosts = () => {
+    selectedPosts.forEach((post) => dispatch(removePost(post)));
+  };
 
   return (
     <div className={s.wrapper}>
       <div className={s.container}>
-        <button className={s.filter}>
-          <img src="/header/filter.svg" alt="logo" />
-        </button>
+        {selectedPosts.length ? (
+          <button onClick={() => removePosts()}>
+            <img src="/header/trash.svg" alt="" />
+          </button>
+        ) : (
+          <button className={s.filter}>
+            <img src="/header/filter.svg" alt="logo" />
+          </button>
+        )}
 
         <select value={api} onChange={handleSelectChange}>
           <option value="Location">Location</option>

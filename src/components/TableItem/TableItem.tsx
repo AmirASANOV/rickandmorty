@@ -1,19 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import s from "./TableItem.module.scss";
 import { ITable } from "../../types/types";
-import PostOptions from "../PostOptions/PostOptions";
+import { useDispatch, useSelector } from "react-redux";
+import { deselectPost, selectPost } from "../../store/PostsSlice";
+import { RootState } from "../../store/store";
 
 interface ITableProps {
   post: ITable;
 }
 
 const TableItem: React.FC<ITableProps> = ({ post }) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const posts = useSelector((state: RootState) => state.posts.posts);
+
+  const selectedPostIds = useSelector(
+    (state: RootState) => state.posts.selectedPostIds
+  );
+  console.log(selectedPostIds);
+
+  const handleCheckboxChange = (postId: number) => {
+    if (selectedPostIds.includes(postId)) {
+      dispatch(deselectPost(postId));
+    } else {
+      dispatch(selectPost(postId));
+    }
+  };
 
   return (
     <tr className={s.wrapper}>
       <td>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={selectedPostIds.includes(post.id)}
+          onChange={() => handleCheckboxChange(post.id)}
+        />
       </td>
 
       <td className={s.id}>
@@ -44,21 +64,6 @@ const TableItem: React.FC<ITableProps> = ({ post }) => {
 
       <td className={s.deposit}>
         <p>deposit</p>
-      </td>
-
-      <td className={s.options}>
-        <img
-          className={s.threePoints}
-          onClick={() => setIsVisible(!isVisible)}
-          src="/item/threePoints.svg"
-          alt=""
-        />
-
-        {isVisible && (
-          <div className={s.postOptionWindow}>
-            <PostOptions id={post.id} />
-          </div>
-        )}
       </td>
     </tr>
   );
