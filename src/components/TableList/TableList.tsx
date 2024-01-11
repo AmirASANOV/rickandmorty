@@ -6,7 +6,7 @@ import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { removePost } from "../../store/PostsSlice";
+import { deselectPost, removePost } from "../../store/PostsSlice";
 
 interface ITableListProps {
   api: string;
@@ -30,6 +30,8 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
   const selectedPosts = useSelector(
     (state: RootState) => state.posts.selectedPostIds
   );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentItem(data.slice(firstItemIndex, lastPageIndex));
@@ -60,6 +62,10 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
     setCurrentItem(sortedItems);
   };
 
+  const removeSelect = () => {
+    selectedPosts.forEach((post) => dispatch(deselectPost(post)));
+  };
+
   return (
     <div>
       {isLoading === LoadingStatus.pending ? (
@@ -72,7 +78,15 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
             <thead>
               <tr className={s.row}>
                 <td>
-                  <input type="checkbox" />
+                  {selectedPosts.length ? (
+                    <img
+                      onClick={() => removeSelect()}
+                      src="/template/checkboxMinus.svg"
+                      alt=""
+                    />
+                  ) : (
+                    <input type="checkbox" />
+                  )}
                 </td>
 
                 <td className={s.id}>
