@@ -80,7 +80,7 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
                 <td>
                   {selectedPosts.length ? (
                     <img
-                      className={s.checkbox}
+                      className={s.checkboxMin}
                       onClick={() => removeSelect()}
                       src="/template/checkboxMinus.svg"
                       alt=""

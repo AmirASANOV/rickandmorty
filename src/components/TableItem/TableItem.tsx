@@ -27,7 +27,7 @@ const TableItem: React.FC<ITableProps> = ({ post }) => {
 
   return (
     <tr className={`${s.wrapper} ${post.id % 2 === 0 ? s.bgblue : ""}`}>
-      <td>
+      <td className={s.checkbox}>
         <input
           type="checkbox"
           checked={selectedPostIds.includes(post.id)}

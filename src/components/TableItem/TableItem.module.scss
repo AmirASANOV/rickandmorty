@@ -1,9 +1,15 @@
 .wrapper {
   width: 100%;
+  height: 64px;
   display: flex;
   align-items: center;
   column-gap: 20px;
-  padding: 10px;
+
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+  }
 
   .id {
     height: 40px;
@@ -51,17 +57,8 @@
     width: 100px;
     justify-content: end;
   }
-
-  .options {
-    display: flex;
-
-    .threePoints {
-      .postOptionWindow {
-      }
-    }
-  }
 }
 
 .bgblue {
-  background: #f0f5fe;
+  background: #f9fafc;
 }

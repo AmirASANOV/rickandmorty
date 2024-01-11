@@ -1,20 +1,25 @@
 .template {
   display: flex;
   flex-direction: column;
-
   .row {
     display: flex;
     align-items: center;
     width: 100%;
     background: #f4f7fcbf;
     column-gap: 20px;
-    padding: 10px;
     height: 40px;
+
+    .checkboxMin {
+      height: 30px;
+      cursor: pointer;
+      margin-left: 1px;
+    }
 
     .checkbox {
       height: 20px;
       width: 20px;
       cursor: pointer;
+      margin-left: 10px;
     }
 
     .id {
