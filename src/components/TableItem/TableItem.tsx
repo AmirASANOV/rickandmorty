@@ -11,7 +11,6 @@ interface ITableProps {
 
 const TableItem: React.FC<ITableProps> = ({ post }) => {
   const dispatch = useDispatch();
-  const posts = useSelector((state: RootState) => state.posts.posts);
 
   const selectedPostIds = useSelector(
     (state: RootState) => state.posts.selectedPostIds
@@ -27,7 +26,7 @@ const TableItem: React.FC<ITableProps> = ({ post }) => {
   };
 
   return (
-    <tr className={s.wrapper}>
+    <tr className={`${s.wrapper} ${post.id % 2 === 0 ? s.bgblue : ""}`}>
       <td>
         <input
           type="checkbox"

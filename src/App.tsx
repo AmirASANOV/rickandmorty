@@ -3,9 +3,11 @@ import s from "./App.module.scss";
 import TableList from "./components/TableList/TableList";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPosts, switchLoadingStatus } from "./store/PostsSlice";
 import { LoadingStatus } from "./types/types";
+import { RootState } from "./store/store";
+import Loader from "./components/Loader/Loader";
 
 function App() {
   const [api, setApi] = useState<string>("Location");
@@ -24,10 +26,20 @@ function App() {
     });
   }, [api]);
 
+  const isLoading = useSelector<RootState, LoadingStatus>(
+    (store) => store.posts.loadingStatus
+  );
+
   return (
     <div className={s.wrapper}>
-      <Header api={api} setApi={setApi} />
-      <TableList api={api} />
+      {isLoading === LoadingStatus.pending ? (
+        <Loader />
+      ) : (
+        <>
+          <Header api={api} setApi={setApi} />
+          <TableList api={api} />
+        </>
+      )}
     </div>
   );
 }
