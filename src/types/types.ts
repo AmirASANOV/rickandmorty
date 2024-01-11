@@ -3,3 +3,8 @@ export interface ITable {
   name: string;
   dimension: string;
 }
+
+export enum LoadingStatus {
+  pending,
+  fulfilled,
+}

@@ -1,44 +1,32 @@
 import { useEffect, useState } from "react";
 import s from "./TableList.module.scss";
 import TableItem from "../TableItem/TableItem";
-import axios from "axios";
-import { ITable } from "../../types/types";
+import { ITable, LoadingStatus } from "../../types/types";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { deletePost } from "../../store/PostsSlice";
 
 interface ITableListProps {
   api: string;
 }
 
 const TableList: React.FC<ITableListProps> = ({ api }) => {
-  const [data, setData] = useState<ITable[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const data = useSelector<RootState, ITable[]>((store) => store.posts.posts);
+  console.log(data);
+
+  const isLoading = useSelector<RootState, LoadingStatus>(
+    (store) => store.posts.loadingStatus
+  );
+
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const lastPageIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastPageIndex - itemsPerPage;
   const [currentItem, setCurrentItem] = useState<ITable[]>([]);
+
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
-  const removeID = useSelector((state: RootState) => state.posts);
-
-  console.log(useSelector((state: RootState) => state.posts));
-
-  useEffect(() => {
-    const apiLoad =
-      api === "Location"
-        ? "https://rickandmortyapi.com/api/location"
-        : "https://rickandmortyapi.com/api/character";
-
-    axios.get(apiLoad).then((response) => {
-      setData(response.data.results);
-      setIsLoading(false);
-    });
-  }, [api]);
 
   useEffect(() => {
     setCurrentItem(data.slice(firstItemIndex, lastPageIndex));
@@ -71,7 +59,7 @@ const TableList: React.FC<ITableListProps> = ({ api }) => {
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading === LoadingStatus.pending ? (
         <div className={s.loader}>
           <Loader />
         </div>

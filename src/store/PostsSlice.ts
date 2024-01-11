@@ -1,18 +1,25 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface Post {
-  id: number;
-}
+import { createSlice } from "@reduxjs/toolkit";
+import { ITable, LoadingStatus } from "../types/types";
 
 const postsSlice = createSlice({
   name: "posts",
-  initialState: [] as Post[],
+  initialState: {
+    posts: [] as ITable[],
+    loadingStatus: LoadingStatus.fulfilled as LoadingStatus,
+  },
+
   reducers: {
-    deletePost: (state, action: PayloadAction<number>) => {
-      return state.filter((post) => post.id !== action.payload);
+    setPosts: (state, action) => {
+      state.posts = action.payload;
+    },
+    switchLoadingStatus: (state, action) => {
+      state.loadingStatus = action.payload;
+    },
+    removePost: (state, action) => {
+      state.posts = state.posts.filter((post) => post.id !== action.payload);
     },
   },
 });
 
-export const { deletePost } = postsSlice.actions;
+export const { setPosts, switchLoadingStatus, removePost } = postsSlice.actions;
 export default postsSlice.reducer;
