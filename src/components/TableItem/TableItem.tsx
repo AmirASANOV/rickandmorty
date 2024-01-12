@@ -15,7 +15,6 @@ const TableItem: React.FC<ITableProps> = ({ post }) => {
   const selectedPostIds = useSelector(
     (state: RootState) => state.posts.selectedPostIds
   );
-  console.log(selectedPostIds);
 
   const handleCheckboxChange = (postId: number) => {
     if (selectedPostIds.includes(postId)) {
