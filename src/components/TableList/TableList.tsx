@@ -1,8 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import s from "./TableList.module.scss";
 import TableItem from "../TableItem/TableItem";
-import { ITable, LoadingStatus } from "../../types/types";
-
+import { ITable } from "../../types/types";
 import Pagination from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -72,23 +71,23 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
     selectedPosts.forEach((post) => dispatch(removePost(post)));
   };
 
-  const filterPosts = (searchPosts: string, listOfPosts: ITable[]) => {
-    if (!value) {
-      return data;
-    }
-    return currentItem.filter((post) =>
-      post.name.toLowerCase().includes(searchPosts.toLowerCase())
-    );
-  };
-
   useEffect(() => {
+    const filterPosts = (searchPosts: string, listOfPosts: ITable[]) => {
+      if (!value) {
+        return listOfPosts;
+      }
+      return listOfPosts.filter((post) =>
+        post.name.toLowerCase().includes(searchPosts.toLowerCase())
+      );
+    };
+
     const Debounce = setTimeout(() => {
       const filteredPosts = filterPosts(value, data);
       setCurrentItem(filteredPosts);
     }, 300);
 
     return () => clearTimeout(Debounce);
-  }, [data, filterPosts, value]);
+  }, [data, value]);
 
   return (
     <div>

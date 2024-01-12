@@ -1,4 +1,3 @@
-import Header from "./components/Header/Header";
 import s from "./App.module.scss";
 import TableList from "./components/TableList/TableList";
 import { useEffect, useState } from "react";
@@ -24,7 +23,7 @@ function App() {
       dispatch(setPosts(response.data.results));
       dispatch(switchLoadingStatus(LoadingStatus.fulfilled));
     });
-  }, [api]);
+  }, [api, dispatch]);
 
   const isLoading = useSelector<RootState, LoadingStatus>(
     (store) => store.posts.loadingStatus
@@ -36,7 +35,6 @@ function App() {
         <Loader />
       ) : (
         <>
-          {/* <Header api={api} setApi={setApi} /> */}
           <TableList api={api} setApi={setApi} />
         </>
       )}
