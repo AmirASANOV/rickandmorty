@@ -36,8 +36,8 @@ function App() {
         <Loader />
       ) : (
         <>
-          <Header api={api} setApi={setApi} />
-          <TableList api={api} />
+          {/* <Header api={api} setApi={setApi} /> */}
+          <TableList api={api} setApi={setApi} />
         </>
       )}
     </div>

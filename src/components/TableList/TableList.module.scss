@@ -1,3 +1,39 @@
+.container {
+  display: flex;
+  column-gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  .filterSection {
+    display: flex;
+    column-gap: 20px;
+
+    .filter {
+      width: 42px;
+      height: 32px;
+      background: #fff;
+      border-radius: 6px;
+      margin-left: 10px;
+    }
+
+    .input {
+      padding-left: 30px;
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+}
+
+.custom {
+  width: 100%;
+  max-width: 146px;
+  height: 32px;
+  border-radius: 6px;
+  background: #2264e5;
+  color: #fff;
+  margin-right: 10px;
+}
+
 .template {
   display: flex;
   flex-direction: column;

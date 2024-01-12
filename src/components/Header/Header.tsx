@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import s from "./Header.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { inputValue, removePost } from "../../store/PostsSlice";
+import { removePost } from "../../store/PostsSlice";
 
 interface IHeaderProps {
   api: string;
@@ -24,13 +24,6 @@ const Header: React.FC<IHeaderProps> = ({ api, setApi }) => {
     selectedPosts.forEach((post) => dispatch(removePost(post)));
   };
 
-  const value = useSelector((post: RootState) => post.posts.inputValue);
-  console.log(value + "123");
-
-  const handleInputValue = (e: any) => {
-    dispatch(inputValue(e.target.value));
-  };
-
   return (
     <div className={s.wrapper}>
       <div className={s.container}>
@@ -43,12 +36,6 @@ const Header: React.FC<IHeaderProps> = ({ api, setApi }) => {
             <img src="/header/filter.svg" alt="logo" />
           </button>
         )}
-
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => handleInputValue(e)}
-        />
 
         <select value={api} onChange={handleSelectChange}>
           <option value="Location">Location</option>

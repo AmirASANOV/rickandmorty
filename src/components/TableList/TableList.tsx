@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import s from "./TableList.module.scss";
 import TableItem from "../TableItem/TableItem";
 import { ITable, LoadingStatus } from "../../types/types";
@@ -6,13 +6,14 @@ import { ITable, LoadingStatus } from "../../types/types";
 import Pagination from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { deselectPost } from "../../store/PostsSlice";
+import { deselectPost, removePost } from "../../store/PostsSlice";
 
 interface ITableListProps {
   api: string;
+  setApi: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TableList: React.FC<ITableListProps> = () => {
+const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const data = useSelector<RootState, ITable[]>((store) => store.posts.posts);
 
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
@@ -20,9 +21,9 @@ const TableList: React.FC<ITableListProps> = () => {
   const lastPageIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastPageIndex - itemsPerPage;
   const [currentItem, setCurrentItem] = useState<ITable[]>([]);
-
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [value, setValue] = useState<string>("");
 
   const selectedPosts = useSelector(
     (state: RootState) => state.posts.selectedPostIds
@@ -63,8 +64,60 @@ const TableList: React.FC<ITableListProps> = () => {
     selectedPosts.forEach((post) => dispatch(deselectPost(post)));
   };
 
+  function handleSelectChange(event: ChangeEvent<HTMLSelectElement>) {
+    setApi(event.target.value);
+  }
+
+  const removePosts = () => {
+    selectedPosts.forEach((post) => dispatch(removePost(post)));
+  };
+
+  const filterPosts = (searchPosts: string, listOfPosts: ITable[]) => {
+    if (!value) {
+      return data;
+    }
+    return currentItem.filter((post) =>
+      post.name.toLowerCase().includes(searchPosts.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    const Debounce = setTimeout(() => {
+      const filteredPosts = filterPosts(value, data);
+      setCurrentItem(filteredPosts);
+    }, 300);
+
+    return () => clearTimeout(Debounce);
+  }, [data, filterPosts, value]);
+
   return (
     <div>
+      <div className={s.container}>
+        <div className={s.filterSection}>
+          {selectedPosts.length ? (
+            <button className={s.filter} onClick={() => removePosts()}>
+              <img src="/header/trash.svg" alt="" />
+            </button>
+          ) : (
+            <button className={s.filter}>
+              <img src="/header/filter.svg" alt="logo" />
+            </button>
+          )}
+
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+
+          <select value={api} onChange={handleSelectChange}>
+            <option value="Location">Location</option>
+            <option value="Character">Character</option>
+          </select>
+        </div>
+        <button className={s.custom}>add customers</button>
+      </div>
+
       <div>
         <table className={s.template}>
           <thead>

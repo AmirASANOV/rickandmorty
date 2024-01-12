@@ -30,9 +30,7 @@ const postsSlice = createSlice({
         (id) => id !== action.payload
       );
     },
-    setInputValue: (state, action) => {
-      state.inputValue = action.payload;
-    },
+
     inputValue: (state, action) => {
       state.posts = state.posts.filter((post) => {
         return post.name.toLowerCase().includes(action.payload.toLowerCase());
@@ -47,7 +45,7 @@ export const {
   removePost,
   selectPost,
   deselectPost,
-  setInputValue,
+
   inputValue,
 } = postsSlice.actions;
 export default postsSlice.reducer;
