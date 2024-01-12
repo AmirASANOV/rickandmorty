@@ -20,10 +20,8 @@
       position: relative;
 
       &::before {
-        content: "";
+        content: "asd";
         position: absolute;
-        background-color: red;
-        background-image: url("../../../public/header/search.svg");
       }
     }
   }

@@ -42,7 +42,6 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   };
 
   useEffect(() => {
-    console.log(value.length);
     const Debounce = setTimeout(() => {
       const filteredPosts = filterPosts(value, posts);
       setPosts(filteredPosts);
@@ -92,7 +91,6 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
     selectedPosts.forEach((post) => dispatch(removePost(post)));
   };
 
-  console.log(currentItem.length);
   return (
     <div>
       <div className={s.container}>
@@ -189,13 +187,13 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
           </tbody>
         </table>
 
-        {currentItem.length >= 15 ? (
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            totalItems={data.length}
-            paginate={paginate}
-          />
-        ) : null}
+        <Pagination
+          itemsPerPage={itemsPerPage}
+          totalItems={posts.length}
+          paginate={paginate}
+        />
+
+        {!currentItem.length ? <p>Empty...</p> : null}
       </div>
     </div>
   );
