@@ -92,7 +92,7 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
     selectedPosts.forEach((post) => dispatch(removePost(post)));
   };
 
-  console.log(currentItem.length > 15);
+  console.log(currentItem.length);
   return (
     <div>
       <div className={s.container}>
@@ -189,7 +189,7 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
           </tbody>
         </table>
 
-        {currentItem.length <= 15 ? (
+        {currentItem.length >= 15 ? (
           <Pagination
             itemsPerPage={itemsPerPage}
             totalItems={data.length}
