@@ -17,9 +17,14 @@
     }
 
     .input {
-      padding-left: 30px;
-      width: 100%;
-      max-width: 320px;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        background-color: red;
+        background-image: url("../../../public/header/search.svg");
+      }
     }
   }
 }
