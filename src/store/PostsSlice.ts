@@ -7,7 +7,6 @@ const postsSlice = createSlice({
     posts: [] as ITable[],
     loadingStatus: LoadingStatus.fulfilled as LoadingStatus,
     selectedPostIds: [] as number[],
-    inputValue: "" as string,
   },
 
   reducers: {
@@ -30,12 +29,6 @@ const postsSlice = createSlice({
         (id) => id !== action.payload
       );
     },
-
-    inputValue: (state, action) => {
-      state.posts = state.posts.filter((post) => {
-        return post.name.toLowerCase().includes(action.payload.toLowerCase());
-      });
-    },
   },
 });
 
@@ -45,7 +38,5 @@ export const {
   removePost,
   selectPost,
   deselectPost,
-
-  inputValue,
 } = postsSlice.actions;
 export default postsSlice.reducer;

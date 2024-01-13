@@ -13,9 +13,8 @@ interface ITableListProps {
 }
 
 const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
-  const data = useSelector<RootState, ITable[]>((store) => store.posts.posts);
-
-  const [posts, setPosts] = useState<ITable[]>(data);
+  const posts = useSelector<RootState, ITable[]>((store) => store.posts.posts);
+  const [data, setData] = useState<ITable[]>(posts);
 
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -24,7 +23,26 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const [currentItem, setCurrentItem] = useState<ITable[]>([]);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [value, setValue] = useState("");
+
+  const [value, setValue] = useState<string>("");
+
+  const filterCars = (value: string, dataPosts: ITable[]) => {
+    if (!value.length) {
+      return posts;
+    }
+    return dataPosts.filter((post: ITable) =>
+      post.name.toLowerCase().includes(value.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    const Debounce = setTimeout(() => {
+      const filteredCars = filterCars(value, data);
+      setData(filteredCars);
+    }, 300);
+
+    return () => clearTimeout(Debounce);
+  }, [data, value]);
 
   const selectedPosts = useSelector(
     (state: RootState) => state.posts.selectedPostIds
@@ -32,27 +50,9 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
 
   const dispatch = useDispatch();
 
-  const filterPosts = (searchPosts: string, listOfPosts: ITable[]) => {
-    if (!value) {
-      return data;
-    }
-    return listOfPosts.filter((post) =>
-      post.name.toLowerCase().includes(searchPosts.toLowerCase())
-    );
-  };
-
   useEffect(() => {
-    const Debounce = setTimeout(() => {
-      const filteredPosts = filterPosts(value, posts);
-      setPosts(filteredPosts);
-    }, 300);
-
-    return () => clearTimeout(Debounce);
-  }, [value]);
-
-  useEffect(() => {
-    setCurrentItem(posts.slice(firstItemIndex, lastPageIndex));
-  }, [posts, firstItemIndex, lastPageIndex]);
+    setCurrentItem(data.slice(firstItemIndex, lastPageIndex));
+  }, [data, firstItemIndex, lastPageIndex]);
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -189,7 +189,7 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
 
         <Pagination
           itemsPerPage={itemsPerPage}
-          totalItems={posts.length}
+          totalItems={data.length}
           paginate={paginate}
         />
 
