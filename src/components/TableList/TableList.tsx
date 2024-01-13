@@ -14,21 +14,17 @@ interface ITableListProps {
 
 const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const posts = useSelector<RootState, ITable[]>((store) => store.posts.posts);
-  const [data, setData] = useState<ITable[]>(posts);
-
-  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const itemsPerPage = 15;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const lastPageIndex = currentPage * itemsPerPage;
-  const firstItemIndex = lastPageIndex - itemsPerPage;
-  const [currentItem, setCurrentItem] = useState<ITable[]>([]);
+  const [pagePosts, setPagePosts] = useState<ITable[]>([]);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
+  const [filteredPosts, setFilteredPosts] = useState<ITable[]>(posts);
   const [value, setValue] = useState<string>("");
 
-  const filterCars = (value: string, dataPosts: ITable[]) => {
+  const filterPosts = (value: string, dataPosts: ITable[]) => {
     if (!value.length) {
-      return posts;
+      return dataPosts;
     }
     return dataPosts.filter((post: ITable) =>
       post.name.toLowerCase().includes(value.toLowerCase())
@@ -37,12 +33,11 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
 
   useEffect(() => {
     const Debounce = setTimeout(() => {
-      const filteredCars = filterCars(value, data);
-      setData(filteredCars);
+      const filteredPosts = filterPosts(value, posts);
+      setFilteredPosts(filteredPosts);
     }, 300);
-
     return () => clearTimeout(Debounce);
-  }, [data, value]);
+  }, [posts, value]);
 
   const selectedPosts = useSelector(
     (state: RootState) => state.posts.selectedPostIds
@@ -51,24 +46,26 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setCurrentItem(data.slice(firstItemIndex, lastPageIndex));
-  }, [data, firstItemIndex, lastPageIndex]);
+    const lastPageIndex = currentPage * itemsPerPage;
+    const firstItemIndex = lastPageIndex - itemsPerPage;
+    setPagePosts(filteredPosts.slice(firstItemIndex, lastPageIndex));
+  }, [filteredPosts, currentPage, itemsPerPage]);
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
   const sortId = () => {
-    const sortedItems = [...currentItem];
+    const sortedItems = [...pagePosts];
     sortedItems.sort((a: ITable, b: ITable) => {
       return sortDirection === "asc" ? a.id - b.id : b.id - a.id;
     });
-    setCurrentItem(sortedItems);
+    setPagePosts(sortedItems);
     setSortDirection(sortDirection === "asc" ? "desc" : "asc");
   };
 
   const sortAlphabetically = () => {
-    const sortedItems = [...currentItem];
+    const sortedItems = [...pagePosts];
     sortedItems.sort((a: ITable, b: ITable) => {
       const comparison = a.name.localeCompare(b.name, "en", {
         sensitivity: "base",
@@ -76,7 +73,7 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
       return sortOrder === "asc" ? comparison : -comparison;
     });
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
-    setCurrentItem(sortedItems);
+    setPagePosts(sortedItems);
   };
 
   const removeSelect = () => {
@@ -181,7 +178,7 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
             </tr>
           </thead>
           <tbody>
-            {currentItem.map((post: ITable, i: number) => (
+            {pagePosts.map((post: ITable, i: number) => (
               <TableItem key={i} post={post} />
             ))}
           </tbody>
@@ -189,11 +186,9 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
 
         <Pagination
           itemsPerPage={itemsPerPage}
-          totalItems={data.length}
+          totalItems={filteredPosts.length}
           paginate={paginate}
         />
-
-        {!currentItem.length ? <p>Empty...</p> : null}
       </div>
     </div>
   );
