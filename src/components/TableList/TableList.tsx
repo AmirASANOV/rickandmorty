@@ -134,7 +134,7 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
           </select>
         </div>
         <button onClick={() => setIsVisible(!isVisible)} className={s.custom}>
-          add customers
+          add Universe!
         </button>
       </div>
 
