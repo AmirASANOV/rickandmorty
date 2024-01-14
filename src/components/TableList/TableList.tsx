@@ -6,6 +6,7 @@ import Pagination from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { deselectPost, removePost } from "../../store/PostsSlice";
+import Modal from "../Modal/Modal";
 
 interface ITableListProps {
   api: string;
@@ -14,6 +15,7 @@ interface ITableListProps {
 
 const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const posts = useSelector<RootState, ITable[]>((store) => store.posts.posts);
+
   const itemsPerPage = 15;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pagePosts, setPagePosts] = useState<ITable[]>([]);
@@ -21,6 +23,15 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [filteredPosts, setFilteredPosts] = useState<ITable[]>(posts);
   const [value, setValue] = useState<string>("");
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  const addNewPost = (object: ITable) => {
+    const newPost = {
+      id: object.id,
+      name: object.name,
+    };
+    setFilteredPosts([...filteredPosts, newPost]);
+  };
 
   const filterPosts = (value: string, dataPosts: ITable[]) => {
     if (!value.length) {
@@ -88,8 +99,16 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
     selectedPosts.forEach((post) => dispatch(removePost(post)));
   };
 
+  const switchVisible = () => {
+    setIsVisible(!isVisible);
+  };
+
+  // const addPosts = () => {
+  //   setPagePosts(...pagePosts, { id: prev + 1, newPost });
+  // };
+
   return (
-    <div>
+    <div className={s.wrapper}>
       <div className={s.container}>
         <div className={s.filterSection}>
           {selectedPosts.length ? (
@@ -114,7 +133,9 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
             <option value="Character">Character</option>
           </select>
         </div>
-        <button className={s.custom}>add customers</button>
+        <button onClick={() => setIsVisible(!isVisible)} className={s.custom}>
+          add customers
+        </button>
       </div>
 
       <div>
@@ -189,6 +210,14 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
           totalItems={filteredPosts.length}
           paginate={paginate}
         />
+
+        {isVisible && (
+          <Modal
+            switchVisible={switchVisible}
+            addNewPost={addNewPost}
+            filteredPosts={filteredPosts}
+          />
+        )}
       </div>
     </div>
   );

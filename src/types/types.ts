@@ -1,7 +1,7 @@
 export interface ITable {
   id: number;
   name: string;
-  dimension: string;
+  dimension?: string;
 }
 
 export enum LoadingStatus {

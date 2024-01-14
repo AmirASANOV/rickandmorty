@@ -1,8 +1,21 @@
+.wrapper {
+  margin-top: 10px;
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  box-shadow: 10px 5px 15px 10px #00000014;
+  position: relative;
+  top: 10px;
+  border-radius: 10px;
+}
+
 .container {
   display: flex;
   column-gap: 16px;
   justify-content: space-between;
   margin-bottom: 20px;
+  margin-top: 20px;
 
   .filterSection {
     display: flex;
