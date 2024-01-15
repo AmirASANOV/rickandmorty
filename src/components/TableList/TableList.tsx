@@ -15,8 +15,6 @@ interface ITableListProps {
 
 const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const posts = useSelector<RootState, ITable[]>((store) => store.posts.posts);
-  console.log(posts);
-
   const itemsPerPage = 15;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pagePosts, setPagePosts] = useState<ITable[]>([]);
