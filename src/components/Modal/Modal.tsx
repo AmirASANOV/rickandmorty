@@ -31,15 +31,16 @@ const Modal: React.FC<IModalProps> = (props) => {
           src="/modal/close.svg"
           alt="close"
         />
+        <p>Create Your Universe!</p>
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
           className={s.input}
           type="text"
-          placeholder="enter a name"
+          placeholder="enter a name your Universe!"
         />
         <button onClick={handleValue} className={s.button}>
-          Add Customer
+          Add Universe
         </button>
       </div>
     </div>
