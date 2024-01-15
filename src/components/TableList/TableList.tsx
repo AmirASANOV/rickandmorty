@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import s from "./TableList.module.scss";
 import TableItem from "../TableItem/TableItem";
 import { ITable } from "../../types/types";
@@ -24,6 +24,7 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
   const [filteredPosts, setFilteredPosts] = useState<ITable[]>(posts);
   const [value, setValue] = useState<string>("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isOpenAutoComplete, setIsOpenAutComplete] = useState<boolean>(true);
 
   const addNewPost = (object: ITable) => {
     const newPost = {
@@ -103,9 +104,15 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
     setIsVisible(!isVisible);
   };
 
-  // const addPosts = () => {
-  //   setPagePosts(...pagePosts, { id: prev + 1, newPost });
-  // };
+  const itemClickHandler = (e: React.MouseEvent<HTMLLIElement>) => {
+    const clickedElement = e.currentTarget as HTMLLIElement;
+    setValue(clickedElement.textContent || "");
+    setIsOpenAutComplete(!isOpenAutoComplete);
+  };
+
+  const inputClickHandler = () => {
+    setIsOpenAutComplete(true);
+  };
 
   return (
     <div className={s.wrapper}>
@@ -121,12 +128,31 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
             </button>
           )}
 
-          <input
-            className={s.input}
-            type="text"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
+          <div className={s.inputSection}>
+            <input
+              className={s.input}
+              type="text"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onClick={inputClickHandler}
+            />
+
+            <ul className={s.autoComplete}>
+              {value && isOpenAutoComplete
+                ? pagePosts.map((post: ITable, i: number) => (
+                    <li
+                      onClick={(e: React.MouseEvent<HTMLLIElement>) =>
+                        itemClickHandler(e)
+                      }
+                      className={s.item}
+                      key={i}
+                    >
+                      {post.name}
+                    </li>
+                  ))
+                : null}
+            </ul>
+          </div>
 
           <select value={api} onChange={handleSelectChange}>
             <option value="Location">Location</option>
@@ -138,87 +164,85 @@ const TableList: React.FC<ITableListProps> = ({ api, setApi }) => {
         </button>
       </div>
 
-      <div>
-        <table className={s.template}>
-          <thead>
-            <tr className={s.row}>
-              <td>
-                {selectedPosts.length ? (
-                  <img
-                    className={s.checkboxMin}
-                    onClick={() => removeSelect()}
-                    src="/template/checkboxMinus.svg"
-                    alt=""
-                  />
-                ) : (
-                  <input className={s.checkbox} type="checkbox" />
-                )}
-              </td>
-
-              <td className={s.id}>
-                <p>#</p>
-
+      <table className={s.template}>
+        <thead>
+          <tr className={s.row}>
+            <td>
+              {selectedPosts.length ? (
                 <img
-                  onClick={sortId}
-                  className={s.img}
-                  src="/template/column-sorting.svg"
+                  className={s.checkboxMin}
+                  onClick={() => removeSelect()}
+                  src="/template/checkboxMinus.svg"
                   alt=""
                 />
-              </td>
+              ) : (
+                <input className={s.checkbox} type="checkbox" />
+              )}
+            </td>
 
-              <td className={s.name}>
-                <p>name</p>
-                <img
-                  className={s.img}
-                  onClick={sortAlphabetically}
-                  src="/template/sort-white.svg"
-                  alt=""
-                />
-              </td>
+            <td className={s.id}>
+              <p>#</p>
 
-              <td className={s.description}>
-                <p>description</p>
-              </td>
+              <img
+                onClick={sortId}
+                className={s.img}
+                src="/template/column-sorting.svg"
+                alt=""
+              />
+            </td>
 
-              <td className={s.status}>
-                <p>status</p>
-                <img src="/template/sort-white.svg" alt="" />
-              </td>
+            <td className={s.name}>
+              <p>name</p>
+              <img
+                className={s.img}
+                onClick={sortAlphabetically}
+                src="/template/sort-white.svg"
+                alt=""
+              />
+            </td>
 
-              <td className={s.rate}>
-                <p>rate</p>
-              </td>
+            <td className={s.description}>
+              <p>description</p>
+            </td>
 
-              <td className={s.balance}>
-                <p>balance</p>
-              </td>
+            <td className={s.status}>
+              <p>status</p>
+              <img src="/template/sort-white.svg" alt="" />
+            </td>
 
-              <td className={s.deposit}>
-                <p>deposit</p>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            {pagePosts.map((post: ITable, i: number) => (
-              <TableItem key={i} post={post} />
-            ))}
-          </tbody>
-        </table>
+            <td className={s.rate}>
+              <p>rate</p>
+            </td>
 
-        <Pagination
-          itemsPerPage={itemsPerPage}
-          totalItems={filteredPosts.length}
-          paginate={paginate}
+            <td className={s.balance}>
+              <p>balance</p>
+            </td>
+
+            <td className={s.deposit}>
+              <p>deposit</p>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {pagePosts.map((post: ITable, i: number) => (
+            <TableItem key={i} post={post} />
+          ))}
+        </tbody>
+      </table>
+
+      <Pagination
+        itemsPerPage={itemsPerPage}
+        totalItems={filteredPosts.length}
+        paginate={paginate}
+      />
+
+      {isVisible && (
+        <Modal
+          switchVisible={switchVisible}
+          addNewPost={addNewPost}
+          filteredPosts={filteredPosts}
         />
-
-        {isVisible && (
-          <Modal
-            switchVisible={switchVisible}
-            addNewPost={addNewPost}
-            filteredPosts={filteredPosts}
-          />
-        )}
-      </div>
+      )}
     </div>
   );
 };

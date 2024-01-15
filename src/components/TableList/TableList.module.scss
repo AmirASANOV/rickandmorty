@@ -8,126 +8,134 @@
   position: relative;
   top: 10px;
   border-radius: 10px;
-}
 
-.container {
-  display: flex;
-  column-gap: 16px;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  margin-top: 20px;
-
-  .filterSection {
+  .container {
     display: flex;
-    column-gap: 20px;
+    column-gap: 16px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 20px;
 
-    .filter {
-      width: 42px;
-      height: 32px;
-      background: #fff;
-      border-radius: 6px;
-      margin-left: 10px;
-    }
-
-    .input {
-      position: relative;
-
-      &::before {
-        content: "asd";
-        position: absolute;
-      }
-    }
-  }
-}
-
-.custom {
-  width: 100%;
-  max-width: 146px;
-  height: 32px;
-  border-radius: 6px;
-  background: #2264e5;
-  color: #fff;
-  margin-right: 10px;
-}
-
-.template {
-  display: flex;
-  flex-direction: column;
-  .row {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background: #f4f7fcbf;
-    column-gap: 20px;
-    height: 40px;
-
-    .checkboxMin {
-      height: 30px;
-      cursor: pointer;
-      margin-left: 1px;
-    }
-
-    .checkbox {
-      height: 20px;
-      width: 20px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-
-    .id {
+    .filterSection {
       display: flex;
-      width: 36px;
-      height: 40px;
       align-items: center;
+      column-gap: 20px;
+      width: 100%;
+      max-width: 400px;
 
-      .img {
-        cursor: pointer;
+      .filter {
+        width: 42px;
+        height: 32px;
+        background: #fff;
+        border-radius: 6px;
+        margin-left: 10px;
       }
 
-      .imgRev {
-        cursor: pointer;
-        transform: rotate(180deg);
+      .inputSection {
+        width: 100%;
+        max-width: 500px;
+
+        .input {
+          position: relative;
+          width: 100%;
+          max-width: 230px;
+        }
+
+        .autoComplete {
+          width: 230px;
+          list-style: none;
+          background: #ffffff;
+          position: absolute;
+          padding: 0;
+          box-shadow: 10px 5px 15px 10px #00000014;
+          max-height: 240px;
+          height: auto;
+          overflow: auto;
+
+          .item {
+            padding: 10px;
+          }
+        }
       }
     }
-    .name {
-      display: flex;
-      width: 160px;
-
-      .img {
-        cursor: pointer;
-      }
-    }
-
-    .description {
-      display: flex;
-      width: 238px;
-    }
-    .status {
-      display: flex;
-      width: 70px;
-    }
-    .rate {
-      display: flex;
-      justify-content: end;
-      width: 100px;
-    }
-    .balance {
-      display: flex;
-      justify-content: end;
-
-      width: 100px;
-    }
-    .deposit {
-      display: flex;
-      width: 100px;
-      justify-content: end;
+    .custom {
+      width: 100%;
+      max-width: 146px;
+      height: 32px;
+      border-radius: 6px;
+      background: #2264e5;
+      color: #fff;
+      margin-right: 10px;
     }
   }
-}
 
-.loader {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  .template {
+    display: flex;
+    flex-direction: column;
+    .row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      background: #f4f7fcbf;
+      column-gap: 20px;
+      height: 40px;
+
+      .checkboxMin {
+        height: 30px;
+        cursor: pointer;
+        margin-left: 1px;
+      }
+
+      .checkbox {
+        height: 20px;
+        width: 20px;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+
+      .id {
+        display: flex;
+        width: 36px;
+        height: 40px;
+        align-items: center;
+
+        .img {
+          cursor: pointer;
+        }
+      }
+      .name {
+        display: flex;
+        width: 160px;
+
+        .img {
+          cursor: pointer;
+        }
+      }
+
+      .description {
+        display: flex;
+        width: 238px;
+      }
+      .status {
+        display: flex;
+        width: 70px;
+      }
+      .rate {
+        display: flex;
+        justify-content: end;
+        width: 100px;
+      }
+      .balance {
+        display: flex;
+        justify-content: end;
+
+        width: 100px;
+      }
+      .deposit {
+        display: flex;
+        width: 100px;
+        justify-content: end;
+      }
+    }
+  }
 }
